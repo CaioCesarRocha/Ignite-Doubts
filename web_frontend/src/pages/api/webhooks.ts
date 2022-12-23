@@ -5,7 +5,7 @@ import Stripe from "stripe";
 import { stripe } from "../../lib/stripe";
 import { saveSubscription } from "./_lib/manageSubscription";
 
-//os dados vindo do webhooks ´do stripe é em formato Stream, usa isso pra converter
+//os dados vindo do webhooks do stripe é em formato Stream, usa isso pra converter
 async function buffer(readable: Readable){
     const chunks = [];
 
