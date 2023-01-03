@@ -8,7 +8,7 @@ import styles from './doubt.module.scss';
 interface DoubtProps {
     doubt: {
         slug: string,
-        resume: string,
+        title: string,
         content: string,
         updatedAt: string
     }
@@ -18,11 +18,11 @@ export default function Doubt({doubt}: DoubtProps){
     return(
         <>
            <Head>
-                <title> {doubt.resume} | IgDoubts </title>
+                <title> {doubt.title} | IgDoubts </title>
            </Head>
             <main className={styles.container}>
                 <article className={styles.doubt}>
-                    <h1> {doubt.resume}</h1>
+                    <h1> {doubt.title}</h1>
                     <time>{doubt.updatedAt} </time>
                     <div 
                         dangerouslySetInnerHTML={{__html: doubt.content}}
@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps = async({req, params}) =>{
 
     const {slug}= params!;
 
-    if(!session?.activeSubscription){
+    if(!session){
         return{
             redirect: {
                 destination: '/',
@@ -50,14 +50,13 @@ export const getServerSideProps: GetServerSideProps = async({req, params}) =>{
         }
     }
     
-
     const prismic = getPrismicClient(req)
 
-    const response = await prismic.getByUID<any>('doubt', String(slug), {})
+    const response = await prismic.getByUID<any>('doubts', String(slug), {})
 
     const doubt = {
         slug, 
-        resume: RichText.asText(response.data.resume),
+        title: RichText.asText(response.data.title),
         content: RichText.asHtml(response.data.content),
         updatedAt: new Date(response.last_publication_date!).toLocaleDateString('pt-BR',{
             day: '2-digit',

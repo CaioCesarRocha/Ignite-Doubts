@@ -11,7 +11,7 @@ import styles from '../doubt.module.scss';
 interface DoubtPreviewProps {
     doubt: {
         slug: string,
-        resume: string,
+        title: string,
         content: string,
         updatedAt: string
     }
@@ -21,20 +21,20 @@ export default function DoubtPreview({doubt}: DoubtPreviewProps){
     const { data: session} = useSession();
     const router = useRouter();
 
-    useEffect(() =>{
+    /*useEffect(() =>{
         if(session?.activeSubscription){
             router.push(`/doubts/${doubt.slug}`)
         }
-    }, [session])
+    }, [session])*/
 
     return(
         <>
            <Head>
-                <title> {doubt.resume} | IgDoubts </title>
+                <title> {doubt.title} | IgDoubts </title>
            </Head>
             <main className={styles.container}>
                 <article className={styles.doubt}>
-                    <h1> {doubt.resume}</h1>
+                    <h1> {doubt.title}</h1>
                     <time>{doubt.updatedAt} </time>
                     <div 
                         dangerouslySetInnerHTML={{__html: doubt.content}}
@@ -65,11 +65,11 @@ export const getStaticProps: GetStaticProps = async({ params}) =>{
 
     const prismic = getPrismicClient()
 
-    const response = await prismic.getByUID<any>('doubt', String(slug), {})
+    const response = await prismic.getByUID<any>('doubts', String(slug), {})
 
     const doubt = {
         slug, 
-        resume: RichText.asText(response.data.resume),
+        title: RichText.asText(response.data.title),
         content: RichText.asHtml(response.data.content.splice(0,3)),//pega apenas  os 3 primeiros itens do conteudo
         updatedAt: new Date(response.last_publication_date!).toLocaleDateString('pt-BR',{
             day: '2-digit',
@@ -81,6 +81,7 @@ export const getStaticProps: GetStaticProps = async({ params}) =>{
     return{
         props:{
             doubt,
-        }
+        },
+        revalidate: 60 * 30 // 30 minutes
     }
 }
