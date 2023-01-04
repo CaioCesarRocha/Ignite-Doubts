@@ -42,7 +42,7 @@ The Prismic CMS was used to provide a way to register doubts/answers and through
 
 - The database FaunaDB was used to registers data of users and subscriptions
 
-- React icons to use some figures at the app
+- GitHub API to provide a way to do login
 
 ### How to run
 
@@ -58,8 +58,10 @@ The Prismic CMS was used to provide a way to register doubts/answers and through
 
 - You can access ``https://stripe.com/br`` to create an account and generate your projet to get the ``secret and public keys``
 
-- You can access ``https://prismic.io/dashboard/signup`` to create your doubts content and use at project
-
+- You can access ``https://prismic.io/dashboard/signup`` to create your doubts content and use at project and get the ``TOKEN and ENDPOINT``
+  
+- You can access ``https://dashboard.fauna.com/`` to create your database and get the ``FAUNADB_KEY``
+  
 
 ### Courses used to develop the project
 
